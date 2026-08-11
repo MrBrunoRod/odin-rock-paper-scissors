@@ -41,37 +41,82 @@ function playGame() {
         }
 
         if (winnerNum == 0) {
-            console.log("Human wins round!");
+            finalResult.textContent = "Human wins round!";
             humanScore++;
         }
         else if (winnerNum == 1) {
-            console.log("Computer wins round!");
+            finalResult.textContent = "Computer wins round!";
             computerScore++;
         }
         else if (winnerNum == 3) {
-            console.log("Round is a tie!");
+            finalResult.textContent = "Round is a tie!";
         }
     }
 
-    for (let i = 0; i < 5; i++) {
-        let humanChoice = getHumanChoice();
+    // for (let i = 0; i < 5; i++) {
+    //     let humanChoice = getHumanChoice();
+    //     let computerChoice = getComputerChoice();
+    //     playRound(humanChoice, computerChoice);
+    // }
+
+    const container = document.getElementById("container");
+    const resultContainer = document.getElementById("result-container");
+
+    const rockBtn = document.createElement("button");
+    rockBtn.id = "rock";
+    rockBtn.innerText = "Rock!";
+    rockBtn.type = "button";
+    const paperBtn = document.createElement("button");
+    paperBtn.id = "paper";
+    paperBtn.innerText = "Paper!";
+    paperBtn.type = "button";
+    const scissorsBtn = document.createElement("button");
+    scissorsBtn.id = "scissors";
+    scissorsBtn.innerText = "Scissors!"
+    scissorsBtn.type = "button";
+
+    container.appendChild(rockBtn);
+    container.appendChild(paperBtn);
+    container.appendChild(scissorsBtn);
+
+    const resultText = document.createElement("p");
+    const finalResult = document.createElement("p");
+
+    resultText.textContent = `Human Score ${humanScore} : Computer Score ${computerScore}`;
+    finalResult.textContent = "Winner to be determined..."
+
+    resultContainer.appendChild(resultText);
+    resultContainer.appendChild(finalResult);
+
+    container.addEventListener("click", (event) => {
+        let target = event.target;
+        let humanChoice = "";
+
+        switch(target.id) {
+            case "rock":
+                humanChoice = "rock";
+                break;
+
+            case "paper":
+                humanChoice = "paper";
+                break;
+
+            case "scissors":
+                humanChoice = "scissors";
+                break;   
+        }
+
         let computerChoice = getComputerChoice();
         playRound(humanChoice, computerChoice);
-    }
+        resultText.textContent = `Human Score ${humanScore} : Computer Score ${computerScore}`;
 
-    if (humanScore > computerScore) {
-        console.log(`Human score ${humanScore} : Computer score ${computerScore}`);
-        console.log(`Human wins game!`);
-    }
-
-    else if (humanScore < computerScore) {
-        console.log(`Human score ${humanScore} : Computer score ${computerScore}`);
-        console.log(`Computer wins game!`);
-    }
-    else {
-        console.log(`Human score ${humanScore} : Computer score ${computerScore}`);
-        console.log(`Game ends in a tie!`);
-    }
+        if (humanScore >= 5) {
+        finalResult.textContent = "Human wins the game!";
+        }
+        else if (computerScore >= 5) {
+            finalResult.textContent = "Computer wins game!";
+        }
+    })
 }
 
 playGame();
